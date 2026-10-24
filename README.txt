@@ -1,82 +1,134 @@
-===================================================================================================
-Human Activity Recognition Using Smartphones Dataset
-Version 1.0
-===================================================================================================
-Jorge L. Reyes-Ortiz(1,2), Davide Anguita(1), Alessandro Ghio(1), Luca Oneto(1) and Xavier Parra(2)
-1 - Smartlab - Non-Linear Complex Systems Laboratory
-DITEN - Università  degli Studi di Genova, Genoa (I-16145), Italy. 
-2 - CETpD - Technical Research Centre for Dependency Care and Autonomous Living
-Universitat Politècnica de Catalunya (BarcelonaTech). Vilanova i la Geltrú (08800), Spain
-activityrecognition '@' smartlab.ws 
-===================================================================================================
+Project 13 - Edge-Based Human Activity Recognition
+==================================================
 
-The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data. 
+Course: AI in IoT (AIoT) Research Activity, FISAC
+Department: ICT - CCE B, MIT Manipal
 
-The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain. See 'features_info.txt' for more details. 
+Team
+----
+- Dhruv Sharma - 240953504
+- Rahan S Krishna - 240953496
+- Pramath Bhagawatha K. - 240953488
 
-For each record it is provided:
-======================================
+Project objective
+-----------------
+This project classifies six human activities from smartphone accelerometer and
+gyroscope measurements using the UCI Human Activity Recognition Using
+Smartphones dataset. Six supervised machine-learning models are compared using
+the three evaluation criteria specified for project 13:
 
-- Triaxial acceleration from the accelerometer (total acceleration) and the estimated body acceleration.
-- Triaxial Angular velocity from the gyroscope. 
-- A 561-feature vector with time and frequency domain variables. 
-- Its activity label. 
-- An identifier of the subject who carried out the experiment.
+- Accuracy
+- Macro F1-score
+- Full-test-set batch inference time
 
-The dataset includes the following files:
-=========================================
+The evaluated models are Logistic Regression, Decision Tree, Random Forest,
+RBF-kernel Support Vector Machine, XGBoost, and k-Nearest Neighbours.
 
-- 'README.txt'
+Dataset
+-------
+The dataset contains recordings from 30 volunteers aged 19-48 wearing a
+Samsung Galaxy S II at the waist. Accelerometer and gyroscope measurements were
+sampled at 50 Hz. Signals were divided into 2.56-second windows with 50%
+overlap, and 561 normalized time- and frequency-domain features were extracted
+from every window.
 
-- 'features_info.txt': Shows information about the variables used on the feature vector.
+Dataset summary:
 
-- 'features.txt': List of all features.
+- Training windows: 7,352 from 21 subjects
+- Test windows: 2,947 from 9 different subjects
+- Features per window: 561, bounded within [-1, 1]
+- Activities: WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING,
+  STANDING, and LAYING
 
-- 'activity_labels.txt': Links the class labels with their activity name.
+The official subject-independent training/test split is retained. Prepared
+features are loaded directly; the raw-signal preprocessing pipeline is not
+re-executed by the notebook.
 
-- 'train/X_train.txt': Training set.
+Project files
+-------------
+- project.ipynb: Data loading, model training, evaluation, plots, and analysis
+- activity_labels.txt: Numeric activity IDs and activity names
+- features.txt: Names of the 561 engineered features
+- features_info.txt: Description of feature construction
+- DATASET_README.txt: Original UCI dataset documentation and license notice
+- train/: Official training features, labels, subject IDs, and inertial signals
+- test/: Official test features, labels, subject IDs, and inertial signals
 
-- 'train/y_train.txt': Training labels.
+Software requirements
+---------------------
+The reported experiment used:
 
-- 'test/X_test.txt': Test set.
+- Python 3.13.13
+- scikit-learn 1.9.0
+- XGBoost 3.3.0
 
-- 'test/y_test.txt': Test labels.
+The notebook also requires NumPy, pandas, Matplotlib, Seaborn, and Jupyter.
+Install the packages in a clean virtual environment with:
 
-The following files are available for the train and test data. Their descriptions are equivalent. 
+    python3 -m venv .venv
+    source .venv/bin/activate
+    python3 -m pip install jupyter numpy pandas matplotlib seaborn scikit-learn xgboost
 
-- 'train/subject_train.txt': Each row identifies the subject who performed the activity for each window sample. Its range is from 1 to 30. 
+How to run
+----------
+1. Extract the ZIP archive without changing the folder structure.
+2. Open a terminal in the extracted Project-13-UCI-HAR directory.
+3. Create/activate the environment and install the packages shown above.
+4. Start Jupyter:
 
-- 'train/Inertial Signals/total_acc_x_train.txt': The acceleration signal from the smartphone accelerometer X axis in standard gravity units 'g'. Every row shows a 128 element vector. The same description applies for the 'total_acc_x_train.txt' and 'total_acc_z_train.txt' files for the Y and Z axis. 
+       jupyter notebook project.ipynb
 
-- 'train/Inertial Signals/body_acc_x_train.txt': The body acceleration signal obtained by subtracting the gravity from the total acceleration. 
+5. Run the notebook from the first cell downward. The official test set must
+   remain unchanged.
 
-- 'train/Inertial Signals/body_gyro_x_train.txt': The angular velocity vector measured by the gyroscope for each window sample. The units are radians/second. 
+Primary reported results
+------------------------
+The project compares fixed model configurations on the official test split.
 
-Notes: 
-======
-- Features are normalized and bounded within [-1,1].
-- Each feature vector is a row on the text file.
-- The units used for the accelerations (total and body) are 'g's (gravity of earth -> 9.80665 m/seg2).
-- The gyroscope units are rad/seg.
-- A video of the experiment including an example of the 6 recorded activities with one of the participants can be seen in the following link: http://www.youtube.com/watch?v=XOEN9W05_4A
+Model                  Accuracy (%)   Macro F1 (%)
+---------------------  ------------   ------------
+Logistic Regression          96.064         96.056
+Decision Tree                86.257         85.981
+Random Forest                92.501         92.343
+SVM (RBF)                    95.046         94.991
+XGBoost                      93.180         93.102
+KNN                          90.024         89.702
 
-For more information about this dataset please contact: activityrecognition '@' smartlab.ws
+Logistic Regression achieved the highest accuracy and macro F1 and the lowest
+measured batch prediction time among the six fixed configurations. These are
+host-computer batch timings for all 2,947 test windows, not single-window,
+smartphone, energy, feature-extraction, or end-to-end measurements.
 
-License:
-========
-Use of this dataset in publications must be acknowledged by referencing the following publication [1] 
+The notebook may also contain clearly marked exploratory subject-wise
+cross-validation and hyperparameter-search work. Those exploratory results are
+not the fixed-configuration results in the primary table above and should not
+be mixed with them.
 
-[1] Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz. A Public Domain Dataset for Human Activity Recognition Using Smartphones. 21th European Symposium on Artificial Neural Networks, Computational Intelligence and Machine Learning, ESANN 2013. Bruges, Belgium 24-26 April 2013. 
+Scope and limitations
+---------------------
+- Smartphone/edge deployment is proposed but was not implemented.
+- Sensor acquisition, on-device feature extraction, networking, memory, and
+  energy consumption were not measured.
+- Timing depends on hardware, software versions, threading, and system load.
+- The controlled dataset contains 30 participants and one phone position.
+- Sitting and standing are the main source of classification confusion.
 
-This dataset is distributed AS-IS and no responsibility implied or explicit can be addressed to the authors or their institutions for its use or misuse. Any commercial use is prohibited.
+Dataset attribution and license notice
+--------------------------------------
+Dataset creators:
+Jorge L. Reyes-Ortiz, Davide Anguita, Alessandro Ghio, Luca Oneto, and
+Xavier Parra.
 
-Other Related Publications:
-===========================
-[2] Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra, Jorge L. Reyes-Ortiz.  Energy Efficient Smartphone-Based Activity Recognition using Fixed-Point Arithmetic. Journal of Universal Computer Science. Special Issue in Ambient Assisted Living: Home Care.   Volume 19, Issue 9. May 2013
+Required citation:
+D. Anguita, A. Ghio, L. Oneto, X. Parra, and J. L. Reyes-Ortiz,
+"A Public Domain Dataset for Human Activity Recognition Using Smartphones,"
+21st European Symposium on Artificial Neural Networks, Computational
+Intelligence and Machine Learning (ESANN), Bruges, Belgium, 2013, pp. 437-442.
 
-[3] Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz. Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support Vector Machine. 4th International Workshop of Ambient Assited Living, IWAAL 2012, Vitoria-Gasteiz, Spain, December 3-5, 2012. Proceedings. Lecture Notes in Computer Science 2012, pp 216-223. 
+UCI dataset DOI: https://doi.org/10.24432/C54S4K
 
-[4] Jorge Luis Reyes-Ortiz, Alessandro Ghio, Xavier Parra-Llanas, Davide Anguita, Joan Cabestany, Andreu Català. Human Activity and Motion Disorder Recognition: Towards Smarter Interactive Cognitive Environments. 21th European Symposium on Artificial Neural Networks, Computational Intelligence and Machine Learning, ESANN 2013. Bruges, Belgium 24-26 April 2013.  
-
-==================================================================================================
-Jorge L. Reyes-Ortiz, Alessandro Ghio, Luca Oneto, Davide Anguita and Xavier Parra. November 2013.
+The dataset is distributed AS-IS by its creators, with no implied or explicit
+responsibility for its use or misuse. The original dataset notice states that
+commercial use is prohibited and that publications must acknowledge the
+dataset reference above. See DATASET_README.txt for the complete original
+documentation.
